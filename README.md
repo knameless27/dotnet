@@ -18,5 +18,5 @@ Instrucciones rápidas:
 5. En el Frontend la HttpClient está configurado con la clave 'TaskApi' apuntando a http://localhost:5000/api/ — ajustar si la API corre en otro puerto.
 
 Notas:
-- DB en memoria para simplicidad y rapidez de evaluación.
+- DB postgres.
 - Dockerfile incluido para la API.
