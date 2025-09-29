@@ -1,0 +1,94 @@
+@page "/"
+@using System.Net.Http.Json
+@inject IHttpClientFactory ClientFactory
+
+<h3>Gestor Personal de Tareas</h3>
+
+<div class="mb-3">
+    <input class="form-control" placeholder="Nueva tarea" @bind="newTitle" />
+    <textarea class="form-control mt-2" placeholder="Descripción (opcional)" @bind="newDesc"></textarea>
+    <button class="btn btn-primary mt-2" @onclick="Create">Agregar</button>
+</div>
+
+@if (tasks is null)
+{
+    <p>Cargando...</p>
+}
+else if (!tasks.Any())
+{
+    <p>No hay tareas.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var t in tasks)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="fw-bold">@t.Title</div>
+                    <div class="small">@t.Description</div>
+                    <div class="small text-muted">@t.CreatedAt.ToLocalTime()</div>
+                </div>
+                <div>
+                    @* @if (!t.IsCompleted)
+                    {
+                        <button class="btn btn-sm btn-success me-1" @onclick="() => Complete(t.Id)">Completar</button>
+                    }
+                    <button class="btn btn-sm btn-danger" @onclick="() => Delete(t.Id)">Eliminar</button> *@
+                </div>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<TaskDto>? tasks;
+    private string newTitle = string.Empty;
+    private string? newDesc;
+
+    private HttpClient Api => ClientFactory.CreateClient("TaskApi");
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Load();
+    }
+
+    private async Task Load()
+    {
+        tasks = await Api.GetFromJsonAsync<List<TaskDto>>("tasks");
+        StateHasChanged();
+    }
+
+    private async Task Create()
+    {
+        if (string.IsNullOrWhiteSpace(newTitle)) return;
+        var dto = new { Title = newTitle, Description = newDesc };
+        var res = await Api.PostAsJsonAsync("tasks", dto);
+        if (res.IsSuccessStatusCode)
+        {
+            newTitle = string.Empty; newDesc = null;
+            await Load();
+        }
+    }
+
+    private async Task Complete(Guid id)
+    {
+        var res = await Api.PutAsync($"tasks/{id}/complete", null);
+        if (res.IsSuccessStatusCode) await Load();
+    }
+
+    private async Task Delete(Guid id)
+    {
+        var res = await Api.DeleteAsync($"tasks/{id}");
+        if (res.IsSuccessStatusCode) await Load();
+    }
+
+    private class TaskDto
+    {
+        public Guid Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public string? Description { get; set; }
+        public bool IsCompleted { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
+}

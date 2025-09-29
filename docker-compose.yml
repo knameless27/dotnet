@@ -12,6 +12,33 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  taskapi:
+    build:
+      context: ./TaskApi
+      dockerfile: Dockerfile
+    container_name: taskapi
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=mydb;Username=admin;Password=secret
+    ports:
+      - "5000:8080"
+    restart: always
+
+  taskfront:
+    build:
+      context: ./TaskFront
+      dockerfile: Dockerfile
+    container_name: taskfront
+    depends_on:
+      - taskapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiBaseUrl=http://taskapi:8080
+    ports:
+      - "5001:8080"
+    restart: always
+
 volumes:
   pgdata:
-

@@ -1,0 +1,119 @@
+# Compilados
+bin/
+obj/
+out/
+
+# Dependencias de usuario
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+
+# Configuración de VS / Rider
+.vs/
+.idea/
+
+# Configuración de sistema
+.DS_Store
+Thumbs.db
+
+# Publicaciones
+*.publishsettings
+*.pubxml
+*.pubxml.user
+
+# Archivos de cobertura y pruebas
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+# Paquetes NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Docker
+docker-compose.override.yml
+.env
+
+# Archivos generados por dotnet
+*.dbmdl
+*.bak
+*.mdf
+*.ldf
+
+# Archivos secretos
+secrets.json
+
+# Logs de la app
+logs/
+
+# Compilados
+bin/
+obj/
+out/
+
+# Configuración de Visual Studio / Rider
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos temporales
+*.tmp
+*.temp
+*.log
+
+# Configuración de sistema
+.DS_Store
+Thumbs.db
+
+# Publicaciones y despliegue
+*.publishsettings
+*.pubxml
+*.pubxml.user
+
+# Archivos de pruebas
+TestResults/
+*.coverage
+*.coveragexml
+*.trx
+
+# Paquetes NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuspec
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Archivos generados por dotnet
+*.dbmdl
+*.bak
+*.mdf
+*.ldf
+
+# Secretos y configuración local
+secrets.json
+appsettings.Development.json
+
+# Logs
+logs/
+
+# Archivos estáticos generados
+wwwroot/dist/
+wwwroot/node_modules/
